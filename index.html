@@ -1,0 +1,776 @@
+
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Зат мөлшері. Мольдік масса | Аяжан</title>
+
+<style>
+:root {
+  --bg:#061326;
+  --panel:#102844;
+  --cyan:#5ce7f5;
+  --gold:#ffd477;
+  --white:#f5faff;
+  --muted:#bcd1e4;
+}
+
+* { box-sizing:border-box; }
+
+html,body {
+  margin:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
+
+body {
+  height:100vh;
+  height:100dvh;
+  display:flex;
+  flex-direction:column;
+  font-family:"Segoe UI",Arial,sans-serif;
+  color:var(--white);
+  background:
+    radial-gradient(ellipse at 80% 20%,#144167 0%,transparent 45%),
+    radial-gradient(ellipse at 0% 85%,#113853 0%,transparent 45%),
+    var(--bg);
+}
+
+/* Жоғарғы бөлік */
+header {
+  height:58px;
+  flex-shrink:0;
+  padding:0 3%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid #ffffff20;
+}
+
+.logo {
+  color:var(--cyan);
+  font-size:19px;
+  font-weight:800;
+  letter-spacing:1px;
+}
+
+#counter {
+  font-size:18px;
+  color:var(--muted);
+}
+
+.progress {
+  height:4px;
+  flex-shrink:0;
+  background:#ffffff15;
+}
+
+#progressBar {
+  height:100%;
+  width:12.5%;
+  background:linear-gradient(90deg,#278dff,#65f5e3);
+  transition:width .35s;
+}
+
+/* Слайдтар */
+main {
+  position:relative;
+  width:100%;
+  max-width:1700px;
+  flex:1;
+  min-height:0;
+  margin:auto;
+  overflow:hidden;
+}
+
+.slide {
+  position:absolute;
+  inset:0;
+  padding:22px 4%;
+  display:none;
+  overflow:hidden;
+}
+
+.slide.active {
+  display:block;
+  animation:fade .35s ease;
+}
+
+@keyframes fade {
+  from {opacity:0}
+  to {opacity:1}
+}
+
+.content {
+  width:100%;
+  transform-origin:top left;
+}
+
+.tag {
+  display:inline-block;
+  border:1px solid #5ce7f566;
+  color:var(--cyan);
+  background:#0c344c;
+  padding:9px 19px;
+  border-radius:30px;
+  font-size:17px;
+  font-weight:700;
+}
+
+h1 {
+  font-size:clamp(39px,5vw,77px);
+  line-height:1.13;
+  margin:14px 0 23px;
+}
+
+h2 {
+  font-size:clamp(32px,3.5vw,52px);
+  line-height:1.18;
+  color:var(--cyan);
+  margin:14px 0 25px;
+}
+
+h3 {
+  color:#80dbff;
+  font-size:24px;
+  margin:0 0 13px;
+}
+
+p,li {
+  font-size:clamp(18px,1.75vw,25px);
+  line-height:1.5;
+  margin:10px 0;
+}
+
+strong,b { color:var(--white); }
+
+.muted {color:var(--muted)}
+.gold {color:var(--gold)}
+.center {text-align:center}
+
+.card {
+  background:linear-gradient(140deg,#173750ee,#0d253dee);
+  border:1px solid #7ddcff35;
+  border-radius:23px;
+  padding:22px 27px;
+  margin:15px 0;
+  box-shadow:0 17px 42px #0004;
+}
+
+.grid {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:20px;
+}
+
+.two {
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+  gap:32px;
+  align-items:center;
+}
+
+.formula {
+  font-size:clamp(34px,3.9vw,55px);
+  font-weight:800;
+  color:var(--gold);
+  text-align:center;
+  margin:14px 0;
+}
+
+.photo {
+  width:100%;
+  height:340px;
+  object-fit:cover;
+  border-radius:25px;
+  border:1px solid #ffffff40;
+  box-shadow:0 20px 45px #0007;
+}
+
+.photo.tall {height:415px}
+
+.small {font-size:17px}
+
+.line {
+  height:2px;
+  background:linear-gradient(90deg,var(--cyan),transparent);
+  margin:17px 0;
+}
+
+/* Молекула суреті */
+.molecule {
+  height:210px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.atom {
+  width:110px;
+  height:110px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:radial-gradient(circle at 30% 25%,#ffacac,#df3347 65%,#7d1328);
+  box-shadow:0 0 35px #ff556655;
+  font-weight:800;
+  font-size:32px;
+  z-index:1;
+}
+
+.atom.h {
+  width:75px;
+  height:75px;
+  background:radial-gradient(circle at 30% 25%,#fff,#b9e1ff 65%,#3470b7);
+  font-size:25px;
+}
+
+.bond {
+  width:50px;
+  height:13px;
+  background:#b1c9dc;
+  border-radius:12px;
+  transform:rotate(-18deg);
+}
+
+.bond.right {transform:rotate(18deg)}
+
+table {
+  width:100%;
+  border-collapse:collapse;
+  font-size:21px;
+}
+
+th,td {
+  border:1px solid #ffffff30;
+  text-align:center;
+  padding:14px;
+}
+
+th {background:#154466}
+
+/* Төменгі батырмалар */
+footer {
+  flex-shrink:0;
+  min-height:74px;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  padding:10px 3%;
+  gap:12px;
+  background:#071526ee;
+  border-top:1px solid #ffffff20;
+}
+
+button {
+  font-size:18px;
+  font-weight:750;
+  padding:14px 24px;
+  border:0;
+  border-radius:13px;
+  background:linear-gradient(135deg,#0284c7,#2563eb);
+  color:white;
+  cursor:pointer;
+  touch-action:manipulation;
+}
+
+button.secondary {
+  background:#254159;
+  border:1px solid #ffffff30;
+}
+
+button:disabled {
+  opacity:.4;
+  cursor:default;
+}
+
+button:focus-visible {
+  outline:3px solid var(--gold);
+  outline-offset:3px;
+}
+
+@media(max-width:700px) {
+  header {height:50px}
+  .logo {font-size:14px}
+  footer {min-height:62px;gap:7px}
+  button {padding:11px 12px;font-size:14px}
+  .two,.grid {grid-template-columns:1fr}
+  .card {padding:16px}
+  .photo,.photo.tall {height:190px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">⚗️ ХИМИЯ · ПРЕЗЕНТАЦИЯ</div>
+  <div id="counter">01 / 08</div>
+</header>
+
+<div class="progress">
+  <div id="progressBar"></div>
+</div>
+
+<main>
+
+<!-- 1-БЕТ: ТИТУЛ -->
+<section class="slide active">
+<div class="content">
+  <div class="two">
+    <div>
+      <span class="tag">ХИМИЯ ПӘНІНЕН ПРЕЗЕНТАЦИЯ</span>
+
+      <h1>
+        §21. Зат мөлшері.<br>
+        <span style="color:var(--cyan)">
+          Мольдік масса
+        </span>
+      </h1>
+
+      <div class="line"></div>
+
+      <p style="font-size:29px">
+        Заттың массасы, мөлшері және
+        құрылымдық бөлшектер саны.
+      </p>
+
+      <div class="card">
+        <p><b>Дайындаған:</b> Аяжан</p>
+        <p><b>Тобы:</b> 3-26</p>
+      </div>
+    </div>
+
+    <img class="photo tall"
+      src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=1000&auto=format&fit=crop&q=85"
+      alt="Химия зертханасы">
+  </div>
+</div>
+</section>
+
+<!-- 2-БЕТ -->
+<section class="slide">
+<div class="content">
+  <span class="tag">02 · ЗАТ МӨЛШЕРІ</span>
+
+  <h2>Зат мөлшері дегеніміз не?</h2>
+
+  <div class="card">
+    <p>
+      <b>Зат мөлшері</b> — зат құрамындағы
+      атомдар, молекулалар, иондар
+      және басқа құрылымдық бөлшектердің
+      санымен байланысты физикалық шама.
+    </p>
+  </div>
+
+  <div class="grid">
+    <div class="card center">
+      <h3>Белгіленуі</h3>
+      <div class="formula">n</div>
+      <p>Латынның n әрпі</p>
+    </div>
+
+    <div class="card center">
+      <h3>Өлшем бірлігі</h3>
+      <div class="formula">моль</div>
+      <p>SI жүйесіндегі негізгі бірлік</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <p>
+      <span class="gold"><b>Мысал:</b></span>
+      1 моль су мен 1 моль оттек
+      молекулаларының саны бірдей болады.
+      Бірақ олардың массалары әртүрлі.
+    </p>
+  </div>
+</div>
+</section>
+
+<!-- 3-БЕТ -->
+<section class="slide">
+<div class="content">
+  <span class="tag">03 · МОЛЬ ҰҒЫМЫ</span>
+
+  <h2>Моль және Авогадро тұрақтысы</h2>
+
+  <div class="two">
+    <div>
+      <div class="card">
+        <p>
+          <b>Моль</b> — құрамында дәл
+          6,02214076 × 10²³ құрылымдық
+          бөлшек болатын зат мөлшері.
+        </p>
+
+        <div class="formula">
+          N<sub>A</sub> ≈ 6,02 × 10²³ моль⁻¹
+        </div>
+
+        <p>
+          Бұл сан <b>Авогадро тұрақтысы</b>
+          деп аталады.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>Мысал</h3>
+        <p>
+          1 моль H₂O құрамында шамамен
+          6,02 × 10²³ су молекуласы бар.
+        </p>
+      </div>
+    </div>
+
+    <img class="photo tall"
+      src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=1000&auto=format&fit=crop&q=85"
+      alt="Ғылыми зертхана">
+  </div>
+</div>
+</section>
+
+<!-- 4-БЕТ -->
+<section class="slide">
+<div class="content">
+  <span class="tag">04 · МОЛЬДІК МАССА</span>
+
+  <h2>Мольдік масса дегеніміз не?</h2>
+
+  <div class="two">
+    <div>
+      <div class="card">
+        <p>
+          <b>Мольдік масса</b> — зат
+          массасының оның зат мөлшеріне
+          қатынасы.
+        </p>
+
+        <div class="formula">M = m / n</div>
+
+        <p>M — мольдік масса (г/моль)</p>
+        <p>m — зат массасы (г)</p>
+        <p>n — зат мөлшері (моль)</p>
+      </div>
+
+      <div class="card">
+        <p>
+          Мольдік масса әртүрлі заттар
+          үшін әртүрлі мәнге ие болады.
+        </p>
+      </div>
+    </div>
+
+    <div>
+      <div class="molecule">
+        <div class="atom h">H</div>
+        <div class="bond"></div>
+        <div class="atom">O</div>
+        <div class="bond right"></div>
+        <div class="atom h">H</div>
+      </div>
+
+      <div class="card center">
+        <h3>Судың мольдік массасы</h3>
+        <div class="formula">H₂O</div>
+        <p>M(H₂O) = 2 × 1 + 16</p>
+        <p class="gold"><b>18 г/моль</b></p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- 5-БЕТ -->
+<section class="slide">
+<div class="content">
+  <span class="tag">05 · НЕГІЗГІ ФОРМУЛАЛАР</span>
+
+  <h2>Зат мөлшері мен масса байланысы</h2>
+
+  <div class="grid">
+    <div class="card center">
+      <h3>Зат мөлшері</h3>
+      <div class="formula">n = m / M</div>
+      <p>Массаны мольдік массаға бөлеміз.</p>
+    </div>
+
+    <div class="card center">
+      <h3>Зат массасы</h3>
+      <div class="formula">m = n × M</div>
+      <p>Моль санын мольдік массаға көбейтеміз.</p>
+    </div>
+
+    <div class="card center">
+      <h3>Мольдік масса</h3>
+      <div class="formula">M = m / n</div>
+      <p>Массаны зат мөлшеріне бөлеміз.</p>
+    </div>
+
+    <div class="card center">
+      <h3>Бөлшектер саны</h3>
+      <div class="formula">
+        N = n × N<sub>A</sub>
+      </div>
+      <p>Зат мөлшерін Авогадро тұрақтысына көбейтеміз.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- 6-БЕТ -->
+<section class="slide">
+<div class="content">
+  <span class="tag">06 · ЕСЕПТЕР МЫСАЛЫ</span>
+
+  <h2>Формулалар арқылы есептеу</h2>
+
+  <div class="grid">
+    <div class="card">
+      <h3>1-мысал. Судың зат мөлшері</h3>
+
+      <p><b>Берілгені:</b></p>
+      <p>m(H₂O) = 36 г</p>
+      <p>M(H₂O) = 18 г/моль</p>
+
+      <p><b>Формуласы:</b> n = m / M</p>
+
+      <div class="formula">n = 36 / 18 = 2</div>
+
+      <p class="gold center"><b>Жауабы: 2 моль</b></p>
+    </div>
+
+    <div class="card">
+      <h3>2-мысал. Оттектің массасы</h3>
+
+      <p><b>Берілгені:</b></p>
+      <p>n(O₂) = 3 моль</p>
+      <p>M(O₂) = 32 г/моль</p>
+
+      <p><b>Формуласы:</b> m = n × M</p>
+
+      <div class="formula">m = 3 × 32 = 96</div>
+
+      <p class="gold center"><b>Жауабы: 96 грамм</b></p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- 7-БЕТ -->
+<section class="slide">
+<div class="content">
+  <span class="tag">07 · ҚОЛДАНЫЛУЫ</span>
+
+  <h2>Зат мөлшерінің химиядағы маңызы</h2>
+
+  <div class="grid">
+    <div class="card">
+      <h3>⚗ Химиялық реакциялар</h3>
+      <p>
+        Реакцияға қатысатын заттардың
+        мөлшерлік қатынастарын есептеу
+        үшін пайдаланылады.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>🧪 Зертханалық жұмыстар</h3>
+      <p>
+        Ерітінді дайындауда және қажетті
+        реагент массасын анықтауда
+        маңызды рөл атқарады.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>🏭 Өндіріс</h3>
+      <p>
+        Химиялық өнімдер өндіруде
+        шикізаттың қажетті мөлшерін
+        есептеуге мүмкіндік береді.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>🔬 Ғылыми зерттеулер</h3>
+      <p>
+        Атомдар мен молекулалар санының
+        макроскопиялық шамалармен
+        байланысын сипаттайды.
+      </p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- 8-БЕТ -->
+<section class="slide">
+<div class="content">
+  <span class="tag">08 · ҚОРЫТЫНДЫ</span>
+
+  <h2>Қорытынды</h2>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Зат мөлшері</h3>
+      <p>
+        Құрылымдық бөлшектердің
+        санымен байланысты шама.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Мольдік масса</h3>
+      <p>
+        Заттың массасы мен
+        мөлшерінің қатынасы.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Авогадро тұрақтысы</h3>
+      <p>6,02 × 10²³ моль⁻¹</p>
+    </div>
+
+    <div class="card">
+      <h3>Негізгі формула</h3>
+      <div class="formula">n = m / M</div>
+    </div>
+  </div>
+
+  <div class="center">
+    <h2 style="color:var(--gold);margin:25px 0 8px">
+      Назарларыңызға рақмет!
+    </h2>
+    <p class="muted">Дайындаған: Аяжан | 3-26 тобы</p>
+  </div>
+</div>
+</section>
+
+</main>
+
+<footer>
+  <button class="secondary" onclick="toggleFullscreen()">
+    ⛶ Толық экран
+  </button>
+
+  <button class="secondary" id="prevBtn" onclick="move(-1)">
+    ← Артқа
+  </button>
+
+  <button id="nextBtn" onclick="move(1)">
+    Келесі бет →
+  </button>
+</footer>
+
+<script>
+const slides = [...document.querySelectorAll(".slide")];
+let current = 0;
+
+/* Мазмұнды экран биіктігіне сыйғызу */
+function fitSlides() {
+  slides.forEach(slide => {
+    const content = slide.querySelector(".content");
+
+    content.style.transform = "none";
+    content.style.width = "100%";
+
+    const css = getComputedStyle(slide);
+
+    const availableWidth =
+      slide.clientWidth -
+      parseFloat(css.paddingLeft) -
+      parseFloat(css.paddingRight);
+
+    const availableHeight =
+      slide.clientHeight -
+      parseFloat(css.paddingTop) -
+      parseFloat(css.paddingBottom);
+
+    const contentWidth = content.scrollWidth;
+    const contentHeight = content.scrollHeight;
+
+    if(!availableWidth || !availableHeight) return;
+
+    const scale = Math.min(
+      1,
+      availableWidth / contentWidth,
+      availableHeight / contentHeight
+    );
+
+    content.style.transform = `scale(${scale})`;
+  });
+}
+
+/* Беттер арасында ауысу */
+function showSlide(index) {
+  if(index < 0 || index >= slides.length) return;
+
+  slides[current].classList.remove("active");
+
+  current = index;
+  slides[current].classList.add("active");
+
+  document.getElementById("counter").textContent =
+    String(current + 1).padStart(2,"0") +
+    " / " +
+    String(slides.length).padStart(2,"0");
+
+  document.getElementById("progressBar").style.width =
+    ((current + 1) / slides.length * 100) + "%";
+
+  document.getElementById("prevBtn").disabled =
+    current === 0;
+
+  document.getElementById("nextBtn").disabled =
+    current === slides.length - 1;
+
+  document.getElementById("nextBtn").textContent =
+    current === slides.length - 1
+    ? "Аяқталды ✓"
+    : "Келесі бет →";
+
+  requestAnimationFrame(fitSlides);
+}
+
+function move(direction) {
+  showSlide(current + direction);
+}
+
+/* Толық экран */
+async function toggleFullscreen() {
+  if(!document.fullscreenElement) {
+    if(document.documentElement.requestFullscreen) {
+      await document.documentElement.requestFullscreen();
+    }
+  } else {
+    await document.exitFullscreen();
+  }
+}
+
+/* Пернетақтамен басқару */
+document.addEventListener("keydown",event => {
+  if(event.key === "ArrowRight") move(1);
+  if(event.key === "ArrowLeft") move(-1);
+});
+
+/* Экран өзгерсе қайта сыйғызу */
+window.addEventListener("resize",fitSlides);
+document.addEventListener("fullscreenchange",fitSlides);
+
+/* Сурет жүктелген кезде масштабты жаңарту */
+document.querySelectorAll("img").forEach(img => {
+  img.addEventListener("load",fitSlides);
+  img.addEventListener("error",fitSlides);
+});
+
+showSlide(0);
+</script>
+
+</body>
+</html>
